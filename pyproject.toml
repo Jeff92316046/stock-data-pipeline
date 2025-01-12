@@ -1,0 +1,20 @@
+[project]
+name = "stock-data-pipeline"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "ErEr",email = "jeffliao92316046@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+    "apache-airflow (>=2.10.4,<3.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+package-mode = false
