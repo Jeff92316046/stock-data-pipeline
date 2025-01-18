@@ -13,7 +13,8 @@ dependencies = [
     "alembic (>=1.14.0,<2.0.0)",
     "sqlalchemy (>=1.4.36,<2.0)",
     "psycopg2 (>=2.9.10,<3.0.0)",
-    "sqlalchemy-utils (>=0.41.2,<0.42.0)"
+    "sqlalchemy-utils (>=0.41.2,<0.42.0)",
+    "selenium (>=4.27.1,<5.0.0)"
 ]
 
 
