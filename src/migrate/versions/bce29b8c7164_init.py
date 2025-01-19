@@ -33,7 +33,6 @@ def upgrade() -> None:
     sa.Column('holding_order', sa.Integer(), nullable=True),
     sa.Column('number_of_holder', sa.Integer(), nullable=True),
     sa.Column('shares', sa.Integer(), nullable=True),
-    sa.Column('test', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['stock_symbol'], ['stock_list.stock_symbol'], ),
     sa.PrimaryKeyConstraint('id')
     )

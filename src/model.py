@@ -27,4 +27,3 @@ class stockShareDistribution(Base,HelperMixin):
     holding_order = Column(Integer())
     number_of_holder = Column(Integer())
     shares = Column(Integer())
-    test = Column(Integer())
