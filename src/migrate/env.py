@@ -1,32 +1,18 @@
 from logging.config import fileConfig
-import os
 
-from sqlalchemy import engine_from_config
-from sqlalchemy import pool
-from sqlalchemy_utils import database_exists, create_database
-from sqlalchemy import create_engine
+from sqlalchemy import engine_from_config,pool
+
+from model import stockShareDistribution, StockList
+from utils.db_helper import engine_url,Base,check_database_has_create
 from alembic import context
-from dotenv import load_dotenv
 
-load_dotenv()
-SERVER = os.getenv("SERVER")
-PORT = os.getenv("PORT")
-USERNAME = os.getenv("USERNAME")
-PASSWORD = os.getenv("PASSWORD")
-DB = os.getenv("DB")
 
-engine_url = f"postgresql://{USERNAME}:{PASSWORD}@{SERVER}:{PORT}/{DB}"
-def check_database_has_create():
-    engine = create_engine(engine_url)
-    if not database_exists(engine.url):
-        create_database(engine.url)
-    print(database_exists(engine.url))
-print(engine_url)
-check_database_has_create()
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
+
+check_database_has_create()
 config = context.config
-config.set_main_option('sqlalchemy.url',engine_url)
+
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
 if config.config_file_name is not None:
@@ -36,7 +22,8 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = None
+config.set_main_option('sqlalchemy.url',engine_url)
+target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
@@ -56,7 +43,8 @@ def run_migrations_offline() -> None:
     script output.
 
     """
-    url = config.get_main_option("sqlalchemy.url")
+    # url = config.get_main_option("sqlalchemy.url")
+    url = engine_url
     context.configure(
         url=url,
         target_metadata=target_metadata,
@@ -76,15 +64,14 @@ def run_migrations_online() -> None:
 
     """
     connectable = engine_from_config(
-        config.get_section(config.config_ini_section, {}),
+        config.get_section(config.config_ini_section),
+        url=engine_url,
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
     )
 
     with connectable.connect() as connection:
-        context.configure(
-            connection=connection, target_metadata=target_metadata
-        )
+        context.configure(connection=connection, target_metadata=target_metadata)
 
         with context.begin_transaction():
             context.run_migrations()
