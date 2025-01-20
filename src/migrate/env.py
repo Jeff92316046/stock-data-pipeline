@@ -2,7 +2,7 @@ from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config,pool
 
-from model import stockShareDistribution, StockList
+from model import StockShareDistribution, StockList
 from utils.db_helper import engine_url,Base,check_database_has_create
 from alembic import context
 

@@ -1,8 +1,8 @@
 """init
 
-Revision ID: bce29b8c7164
+Revision ID: 470f66a00c3a
 Revises: 
-Create Date: 2025-01-20 00:29:06.747852
+Create Date: 2025-01-20 17:36:03.022778
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = 'bce29b8c7164'
+revision: str = '470f66a00c3a'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -23,16 +23,17 @@ def upgrade() -> None:
     op.create_table('stock_list',
     sa.Column('stock_symbol', sa.String(length=20), nullable=False),
     sa.Column('stock_name', sa.UnicodeText(), nullable=True),
-    sa.Column('last_updated_at', sa.TIMESTAMP(), nullable=True),
+    sa.Column('last_updated_at', sa.Date(), nullable=True),
     sa.PrimaryKeyConstraint('stock_symbol')
     )
     op.create_table('stock_share_distribution',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('stock_symbol', sa.String(length=20), nullable=True),
-    sa.Column('date_time', sa.TIMESTAMP(), nullable=True),
+    sa.Column('date_time', sa.Date(), nullable=True),
     sa.Column('holding_order', sa.Integer(), nullable=True),
     sa.Column('number_of_holder', sa.Integer(), nullable=True),
-    sa.Column('shares', sa.Integer(), nullable=True),
+    sa.Column('shares', sa.BIGINT(), nullable=True),
+    sa.Column('created_at', sa.Date(), nullable=True),
     sa.ForeignKeyConstraint(['stock_symbol'], ['stock_list.stock_symbol'], ),
     sa.PrimaryKeyConstraint('id')
     )
