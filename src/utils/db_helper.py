@@ -26,6 +26,7 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 class Base(object):
     pass
+
 Base = declarative_base(cls=Base)
 
 def get_db():
