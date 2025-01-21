@@ -7,12 +7,17 @@ from sqlalchemy import (
     Date,
     ForeignKey,
     Column,
-    BIGINT
+    BIGINT,
+    UniqueConstraint
 )
+from sqlalchemy.inspection import inspect
 
 class HelperMixin:
     def to_dict(self):
-        return json.loads(self.to_json())
+        return {
+            c.key: getattr(self, c.key)
+            for c in inspect(self).mapper.column_attrs
+        }
 
 class StockList(Base,HelperMixin):
     __tablename__ = "stock_list"
@@ -29,3 +34,6 @@ class StockShareDistribution(Base,HelperMixin):
     number_of_holder = Column(Integer())
     shares = Column(BIGINT())
     created_at = Column(Date())
+    __table_args__ = (
+        UniqueConstraint('stock_symbol','date_time','holding_order',name='uix_stock_distribution'),
+    )
