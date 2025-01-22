@@ -5,7 +5,7 @@ from repository.stock_list_repository import upsert_stock_by_symbol
 
 @task(log_prints=False)
 def update_stock_list():
-    with get_driver(True) as driver:
+    with get_driver() as driver:
         logger = get_run_logger()
         try:
             logger.info("Starting to update stock list")
