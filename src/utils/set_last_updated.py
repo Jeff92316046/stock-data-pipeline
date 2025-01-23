@@ -14,5 +14,5 @@ def find_last_date_and_set():
             .first()
         )
         i.last_updated_at = last_updated_date.date_time
-        print(i.stock_symbol,last_updated_date.date_time)
+        print(i.stock_symbol, last_updated_date.date_time)
     db_session.commit()

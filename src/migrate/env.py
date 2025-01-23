@@ -1,9 +1,9 @@
 from logging.config import fileConfig
 
-from sqlalchemy import engine_from_config,pool
+from sqlalchemy import engine_from_config, pool
 
 from model import StockShareDistribution, StockList
-from utils.db_helper import engine_url,Base,check_database_has_create
+from utils.db_helper import engine_url, Base, check_database_has_create
 from alembic import context
 
 
@@ -22,7 +22,7 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-config.set_main_option('sqlalchemy.url',engine_url)
+config.set_main_option("sqlalchemy.url", engine_url)
 target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
