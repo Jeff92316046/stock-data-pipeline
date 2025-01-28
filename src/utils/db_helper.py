@@ -1,6 +1,5 @@
 import os
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, DeclarativeBase
+from sqlmodel import create_engine,Session
 from sqlalchemy_utils import database_exists, create_database
 
 from dotenv import load_dotenv
@@ -21,22 +20,10 @@ engine = create_engine(
     max_overflow=30,
 )
 
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-
-class Base(DeclarativeBase):
-    pass
-
-
 def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
+    with Session(engine) as session:
+        yield session
 
 def check_database_has_create():
-    engine = create_engine(engine_url)
     if not database_exists(engine.url):
         create_database(engine.url)
