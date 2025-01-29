@@ -1,5 +1,5 @@
 import os
-from sqlmodel import create_engine,Session
+from sqlmodel import create_engine, Session
 from sqlalchemy_utils import database_exists, create_database
 
 from dotenv import load_dotenv
@@ -20,9 +20,11 @@ engine = create_engine(
     max_overflow=30,
 )
 
+
 def get_db():
     with Session(engine) as session:
         yield session
+
 
 def check_database_has_create():
     if not database_exists(engine.url):

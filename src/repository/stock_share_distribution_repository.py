@@ -7,6 +7,7 @@ from sqlalchemy.dialects import postgresql
 from sqlalchemy.engine.cursor import CursorResult
 from sqlalchemy.orm import Session
 
+
 @task
 def upsert_stock_share_distribution(
     stock_symbol, date_time, holding_order, number_of_holder, shares, created_at
@@ -56,4 +57,3 @@ def upsert_stock_share_distributions(stock_SDs: list[stockSD]):
         get_run_logger().warning(
             f"Stock {stock_SDs[0].stock_symbol} date {stock_SDs[0].date_time} some inserted {result.rowcount} of {len(stock_SDs)}"
         )
-    
