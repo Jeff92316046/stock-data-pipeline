@@ -3,6 +3,8 @@ from contextlib import contextmanager
 from selenium.webdriver.common.by import By
 
 XPATH = By.XPATH
+TAG_NAME = By.TAG_NAME
+
 options = webdriver.ChromeOptions()
 options.add_argument("--headless")
 
