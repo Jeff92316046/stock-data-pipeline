@@ -4,13 +4,15 @@ from prefect.logging import get_run_logger
 from repository.stock_list_repository import upsert_stock_by_symbol
 
 
-@task(log_prints=False)
+STOCK_LIST_URL = "https://www.tdcc.com.tw/portal/zh/smWeb/psi"
+
+@task
 def update_stock_list():
     with get_driver() as driver:
         logger = get_run_logger()
         try:
             logger.info("Starting to update stock list")
-            driver.get("https://www.tdcc.com.tw/portal/zh/smWeb/psi")
+            driver.get(STOCK_LIST_URL)
             # 上市
             logger.info("Starting to update stock list of Listed(上市) stock list")
             driver.find_element(
@@ -25,9 +27,11 @@ def update_stock_list():
                 stock_name = i.find_element(XPATH, "./td[2]").text
                 stock_symbol_lenght = len(stock_symbol)
                 if stock_symbol_lenght == 4:
-                    upsert_stock_by_symbol(
+                    result = upsert_stock_by_symbol(
                         stock_symbol, stock_name
                     )  # 只蒐集股票代號長度為4的股票
+                    if result == 1:
+                        logger.info(f"stock {stock_symbol} stock_name {stock_name} inserted")
             logger.info("Finished update stock list of Listed(上市) stock list")
             # 上櫃
             logger.info("Starting to update stock list of OTC(上櫃) stock list")
@@ -46,9 +50,11 @@ def update_stock_list():
                 stock_name = i.find_element(XPATH, "./td[2]").text
                 stock_symbol_lenght = len(stock_symbol)
                 if stock_symbol_lenght == 4:
-                    upsert_stock_by_symbol(
+                    result = upsert_stock_by_symbol(
                         stock_symbol, stock_name
                     )  # 只蒐集股票代號長度為4的股票
+                    if result == 1:
+                        logger.info(f"stock {stock_symbol} stock_name {stock_name} inserted")
             logger.info("Finished update stock list of OTC(上櫃) stock list")
-        except:
-            logger.error("Error in update stock list")
+        except Exception as e:
+            logger.error(f"Error in update stock list: {e}")
