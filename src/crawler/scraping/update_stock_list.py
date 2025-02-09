@@ -1,7 +1,7 @@
 from utils.selenuim_helper import get_driver, XPATH
 from prefect import task
 from prefect.logging import get_run_logger
-from repository.stock_list_repository import upsert_stock_by_symbol
+from database.repository.stock_list_repository import upsert_stock_by_symbol
 
 
 STOCK_LIST_URL = "https://www.tdcc.com.tw/portal/zh/smWeb/psi"

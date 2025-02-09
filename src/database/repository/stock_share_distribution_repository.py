@@ -1,6 +1,5 @@
 from model import StockShareDistribution as stockSD
-from prefect.logging import get_run_logger
-from utils.db_helper import get_db
+from db_helper import get_db
 from sqlalchemy.dialects import postgresql
 from sqlalchemy.engine.cursor import CursorResult
 

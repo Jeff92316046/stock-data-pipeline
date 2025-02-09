@@ -2,8 +2,8 @@ from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config, pool
 
-from model import *
-from utils.db_helper import engine_url, check_database_has_create
+from model import SQLModel
+from db_helper import engine_url, check_database_has_create
 from alembic import context
 
 
@@ -43,7 +43,6 @@ def run_migrations_offline() -> None:
     script output.
 
     """
-    # url = config.get_main_option("sqlalchemy.url")
     url = engine_url
     context.configure(
         url=url,

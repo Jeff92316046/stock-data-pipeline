@@ -1,5 +1,5 @@
 from sqlmodel import TEXT, String, SQLModel, Field, Relationship, BIGINT, Column
-from datetime import date, datetime
+from datetime import date
 from sqlalchemy import UniqueConstraint, Column
 
 

@@ -1,11 +1,9 @@
 from model import Stocks
 from sqlalchemy.dialects import postgresql
-from prefect import task
-from prefect.logging import get_run_logger
 from sqlmodel import select
 from sqlalchemy.engine.cursor import CursorResult
 
-from utils.db_helper import get_db, engine
+from db_helper import get_db
 
 
 def get_all_stock():

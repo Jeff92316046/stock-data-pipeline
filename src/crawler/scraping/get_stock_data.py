@@ -1,9 +1,9 @@
 import time
-from repository.stock_list_repository import get_all_stock, upsert_stock_date_by_symbol
-from repository.stock_share_distribution_repository import (
+from database.repository.stock_list_repository import get_all_stock, upsert_stock_date_by_symbol
+from database.repository.stock_share_distribution_repository import (
     upsert_stock_share_distributions,
 )
-from model import Stocks, StockShareDistribution as StockSD
+from database.model import Stocks, StockShareDistribution as StockSD
 from utils.selenuim_helper import TAG_NAME, XPATH, get_driver
 from selenium.webdriver.remote.webelement import WebElement
 from datetime import datetime
