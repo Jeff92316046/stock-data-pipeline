@@ -22,9 +22,11 @@ engine = create_engine(
 
 
 def get_db():
-    with Session(engine) as session:
+    session = Session(engine)
+    try:
         yield session
-
+    finally:
+        session.close()
 
 def check_database_has_create():
     if not database_exists(engine.url):
