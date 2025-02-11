@@ -1,6 +1,7 @@
 import os
 from sqlmodel import create_engine, Session
 from sqlalchemy_utils import database_exists, create_database
+from contextlib import contextmanager
 
 from dotenv import load_dotenv
 
@@ -20,7 +21,7 @@ engine = create_engine(
     max_overflow=30,
 )
 
-
+@contextmanager
 def get_db():
     session = Session(engine)
     try:
@@ -31,3 +32,4 @@ def get_db():
 def check_database_has_create():
     if not database_exists(engine.url):
         create_database(engine.url)
+check_database_has_create()

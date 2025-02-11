@@ -3,7 +3,7 @@ from datetime import date
 from sqlalchemy import UniqueConstraint, Column
 
 
-class Stocks(SQLModel, table=True):  # 加上 table=True 表示這是一個數據表
+class Stocks(SQLModel, table=True):
     __tablename__ = "stocks"
     stock_symbol: str = Field(primary_key=True, max_length=20, sa_type=String)
     stock_name: str | None = Field(default=None, sa_type=TEXT)
