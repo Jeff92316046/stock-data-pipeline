@@ -1514,7 +1514,7 @@ description = "Extremely lightweight compatibility layer between dataframe libra
 optional = true
 python-versions = ">=3.8"
 groups = ["main"]
-markers = "python_version == \"3.11\" or python_version >= \"3.12\""
+markers = "(python_version == \"3.11\" or python_version >= \"3.12\") and extra == \"dashboard\""
 files = [
     {file = "narwhals-1.25.2-py3-none-any.whl", hash = "sha256:e645f7fc1f8c0a3563a6cdcd0191586cdf88470ad90f0818abba7ceb6c181b00"},
     {file = "narwhals-1.25.2.tar.gz", hash = "sha256:37594746fc06fe4a588967a34a2974b1f3a7ad6ff1571b6e31ac5e58c9591000"},
@@ -1749,7 +1749,7 @@ description = "Core utilities for Python packages"
 optional = true
 python-versions = ">=3.8"
 groups = ["main"]
-markers = "python_version == \"3.11\" or python_version >= \"3.12\""
+markers = "(extra == \"dev\" or extra == \"dashboard\" or extra == \"crawler\") and (python_version == \"3.11\" or python_version >= \"3.12\")"
 files = [
     {file = "packaging-24.2-py3-none-any.whl", hash = "sha256:09abb1bccd265c01f4a3aa3f7a7db064b36514d2cba19a2f694fe6150451a759"},
     {file = "packaging-24.2.tar.gz", hash = "sha256:c228a6dc5e932d346bc5739379109d49e8853dd8223571c7c5b55260edc0b97f"},
@@ -2071,7 +2071,7 @@ description = "An open-source, interactive data visualization library for Python
 optional = true
 python-versions = ">=3.8"
 groups = ["main"]
-markers = "python_version == \"3.11\" or python_version >= \"3.12\""
+markers = "(python_version == \"3.11\" or python_version >= \"3.12\") and extra == \"dashboard\""
 files = [
     {file = "plotly-6.0.0-py3-none-any.whl", hash = "sha256:f708871c3a9349a68791ff943a5781b1ec04de7769ea69068adcd9202e57653a"},
     {file = "plotly-6.0.0.tar.gz", hash = "sha256:c4aad38b8c3d65e4a5e7dd308b084143b9025c2cc9d5317fc1f1d30958db87d3"},
@@ -4009,10 +4009,10 @@ type = ["pytest-mypy"]
 
 [extras]
 crawler = ["lxml", "prefect", "selenium"]
-dashboard = ["streamlit"]
+dashboard = ["plotly", "streamlit"]
 dev = ["black"]
 
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.11,<3.13"
-content-hash = "e1694b3dce8b8ad5be8c143cb9f09792ebae5dae690e24d6e9d8e0901bfa96b7"
+content-hash = "47137064d560ce0f235fef0ea729e6b90d23dfaaea57f1ed4621a518a3b6582a"
