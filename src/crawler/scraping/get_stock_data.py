@@ -1,9 +1,13 @@
 import time
-from database.repository.stock_list_repository import get_all_stock, upsert_stock_date_by_symbol
+from database.repository.stock_list_repository import (
+    get_all_stock, 
+    upsert_stock_date_by_symbol,
+    Stocks
+)
 from database.repository.stock_share_distribution_repository import (
     upsert_stock_share_distributions,
+    stockSD
 )
-from database.model import Stocks, StockShareDistribution as StockSD
 from utils.selenuim_helper import TAG_NAME, XPATH, get_driver
 from selenium.webdriver.remote.webelement import WebElement
 from datetime import datetime
@@ -20,11 +24,11 @@ def parse_stocksd_data(table: WebElement, stock_symbol: str, date: str):
     rows = table.find_elements(TAG_NAME, "tr")
     if len(rows) == 17:
         rows[15], rows[16] = rows[16], rows[15]
-    stocksds: list[StockSD] = []
+    stocksds: list[stockSD] = []
     for row in rows:
         columns = row.find_elements(TAG_NAME, "td")
         stocksds.append(
-            StockSD(
+            stockSD(
                 stock_symbol=stock_symbol,
                 date_time=datetime.strptime(date, "%Y%m%d").date(),
                 holding_order=int(columns[0].text.strip()),
