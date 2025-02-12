@@ -7,11 +7,11 @@ from dotenv import load_dotenv
 
 
 load_dotenv()
-SERVER = os.getenv("SERVER")
-PORT = os.getenv("PORT")
-USERNAME = os.getenv("USERNAME")
-PASSWORD = os.getenv("PASSWORD")
-DB = os.getenv("DB")
+SERVER = os.getenv("POSTGRES_SERVER")
+PORT = os.getenv("POSTGRES_PORT")
+USERNAME = os.getenv("POSTGRES_USERNAME")
+PASSWORD = os.getenv("POSTGRES_PASSWORD")
+DB = os.getenv("POSTGRES_DB")
 
 engine_url = f"postgresql://{USERNAME}:{PASSWORD}@{SERVER}:{PORT}/{DB}"
 engine = create_engine(
@@ -32,4 +32,3 @@ def get_db():
 def check_database_has_create():
     if not database_exists(engine.url):
         create_database(engine.url)
-check_database_has_create()

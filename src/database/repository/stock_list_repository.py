@@ -1,9 +1,9 @@
-from model import Stocks
+from database.model import Stocks
 from sqlalchemy.dialects import postgresql
 from sqlmodel import select
 from sqlalchemy.engine.cursor import CursorResult
 
-from db_helper import get_db
+from database.db_helper import get_db
 
 
 def get_all_stock():

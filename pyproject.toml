@@ -11,10 +11,10 @@ dependencies = [
     "python-dotenv (>=1.0.1,<2.0.0)",
     "alembic (>=1.14.0,<2.0.0)",
     "sqlalchemy (>2.0.0)",
-    "psycopg2 (>=2.9.10,<3.0.0)",
     "sqlalchemy-utils (>=0.41.2,<0.42.0)",
     "twstock (>=1.4.0,<2.0.0)",
     "sqlmodel (>=0.0.22,<0.0.23)",
+    "psycopg2 (>=2.9.10,<3.0.0)",
 ]
 
 [project.optional-dependencies]
