@@ -2,7 +2,7 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-RUN apt-get update && \
+RUN apt-get update --no-cache && \
     apt-get install -y gcc libpq-dev python3-dev && \
     rm -rf /var/lib/apt/lists/*
 
