@@ -49,7 +49,7 @@ def parse_stocksd_data(table: WebElement, stock_symbol: str, date: str) -> int:
     upsert_stock_date_by_symbol(stock_symbol, datetime.strptime(date, "%Y%m%d").date())
     return result
 
-@task(cache_policy=NO_CACHE)
+@task(cache_policy=NO_CACHE,retries=3)
 def fetch_stocksd_data_by_symbol(stock: Stocks):
     with get_driver() as driver:
         try:
