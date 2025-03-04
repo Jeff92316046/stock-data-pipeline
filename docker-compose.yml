@@ -17,12 +17,10 @@ services:
     build: 
       context: .
       dockerfile: ./src/crawler/Dockerfile
-    ports:
-      - "4200:4200"
     env_file:
       - .env
     environment:
-      - PREFECT_API_URL=http://prefect-server:4200
+      - PREFECT_API_URL=http://prefect-server:4200/api
     depends_on:
       - db
       - prefect-server
@@ -33,20 +31,20 @@ services:
       python crawler/main.py;"
 
   prefect-server:
-    image: prefecthq/prefect:latest
+    image: prefecthq/prefect:3-latest
     ports:
       - "4200:4200"
     environment:
       - PREFECT_UI_HOST=0.0.0.0
       - PREFECT_API_HOST=0.0.0.0
-
+    command: prefect server start --host 0.0.0.0
   db:
     image: postgres:latest
     restart: always
     env_file:
       - .env
     volumes:
-        - ${PWD}/data:/var/lib/postgresql/postgres
+        - ${PWD}/data:/var/lib/postgresql/data
     expose:
       - 5432
     ports:
