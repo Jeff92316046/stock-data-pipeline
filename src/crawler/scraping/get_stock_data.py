@@ -107,6 +107,6 @@ def update_all_stocksd_data():
         )
         if last_updated_at == latest_date:
             continue
-        fetch_stocksd_data_by_symbol(stock)
+        fetch_stocksd_data_by_symbol.with_options(name=f"fetch_stocksd_data_{stock.stock_symbol}")(stock)
 
 # TODO check last date to filter stock
