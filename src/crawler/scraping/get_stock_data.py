@@ -95,7 +95,7 @@ def fetch_stocksd_data_by_symbol(stock: Stocks):
 @task
 def update_all_stocksd_data():
     latest_date = ""
-    with get_driver as driver:
+    with get_driver() as driver:
         driver.get(STOCK_SHARE_DISTRIBUTION_URL)
         select = driver.find_element(XPATH, "//*[@id='scaDate']")
         option = select.find_elements(TAG_NAME, "option")[0]
