@@ -8,7 +8,7 @@ from database.repository.stock_share_distribution_repository import (
     upsert_stock_share_distributions,
     stockSD
 )
-from utils.selenuim_helper import TAG_NAME, XPATH, driver
+from utils.selenuim_helper import TAG_NAME, XPATH, get_driver
 from selenium.webdriver.remote.webelement import WebElement
 from datetime import datetime
 from prefect import task
@@ -51,52 +51,55 @@ def parse_stocksd_data(table: WebElement, stock_symbol: str, date: str) -> int:
 
 @task(cache_policy=NO_CACHE)
 def fetch_stocksd_data_by_symbol(stock: Stocks):
-    try:
-        driver.get(STOCK_SHARE_DISTRIBUTION_URL)
-        select = driver.find_element(XPATH, "//*[@id='scaDate']")  # 確保 ID 正確
-        options = select.find_elements(TAG_NAME, "option")
-        last_updated_at = (
-            stock.last_updated_at.strftime("%Y%m%d") if stock.last_updated_at else ""
-        )
-        newer_dates = [
-            option.get_attribute("value")
-            for option in options
-            if option.get_attribute("value") > last_updated_at
-        ][::-1]
-        if len(newer_dates) == 0:
-            return 
-        time.sleep(0.5)
-        driver.find_element(
-            XPATH,
-            "//*[@id='StockNo']",
-        ).send_keys(stock.stock_symbol)
-        time.sleep(0.3)
-        for date in newer_dates:
-            select = driver.find_element(XPATH, "//*[@id='scaDate']")
-            select.find_element(XPATH, f".//option[@value='{date}']").click()
-            time.sleep(0.3)
-            driver.find_element(
-                XPATH, "//*[@id='form1']/table/tbody/tr[4]/td/input"
-            ).click()
-            table = driver.find_element(
-                XPATH, "//*[@id='body']/div/main/div[6]/div/table/tbody"
+    with get_driver() as driver:
+        try:
+            driver.get(STOCK_SHARE_DISTRIBUTION_URL)
+            select = driver.find_element(XPATH, "//*[@id='scaDate']")  # 確保 ID 正確
+            options = select.find_elements(TAG_NAME, "option")
+            last_updated_at = (
+                stock.last_updated_at.strftime("%Y%m%d") if stock.last_updated_at else ""
             )
-            result = parse_stocksd_data(table, stock.stock_symbol, date)
-            if result == 0:
-                get_run_logger().warning(f"stock {stock.stock_symbol} date {date} is already exists")
-            else:
-                get_run_logger().info(f"stock {stock.stock_symbol} date {date} inserted")
+            newer_dates = [
+                option.get_attribute("value")
+                for option in options
+                if option.get_attribute("value") > last_updated_at
+            ][::-1]
+            if len(newer_dates) == 0:
+                return 
+            time.sleep(0.5)
+            driver.find_element(
+                XPATH,
+                "//*[@id='StockNo']",
+            ).send_keys(stock.stock_symbol)
             time.sleep(0.3)
-        return True
-    except Exception as e:
-        get_run_logger().error(f"Error in {stock.stock_symbol} : {e}")
+            for date in newer_dates:
+                select = driver.find_element(XPATH, "//*[@id='scaDate']")
+                select.find_element(XPATH, f".//option[@value='{date}']").click()
+                time.sleep(0.3)
+                driver.find_element(
+                    XPATH, "//*[@id='form1']/table/tbody/tr[4]/td/input"
+                ).click()
+                table = driver.find_element(
+                    XPATH, "//*[@id='body']/div/main/div[6]/div/table/tbody"
+                )
+                result = parse_stocksd_data(table, stock.stock_symbol, date)
+                if result == 0:
+                    get_run_logger().warning(f"stock {stock.stock_symbol} date {date} is already exists")
+                else:
+                    get_run_logger().info(f"stock {stock.stock_symbol} date {date} inserted")
+                time.sleep(0.3)
+            return True
+        except Exception as e:
+            get_run_logger().error(f"Error in {stock.stock_symbol} : {e}")
 
 @task
 def update_all_stocksd_data():
-    driver.get(STOCK_SHARE_DISTRIBUTION_URL)
-    select = driver.find_element(XPATH, "//*[@id='scaDate']")
-    option = select.find_elements(TAG_NAME, "option")[0]
-    latest_date = option.get_attribute("value")
+    latest_date = ""
+    with get_driver as driver:
+        driver.get(STOCK_SHARE_DISTRIBUTION_URL)
+        select = driver.find_element(XPATH, "//*[@id='scaDate']")
+        option = select.find_elements(TAG_NAME, "option")[0]
+        latest_date = option.get_attribute("value")
     stock_list = get_all_stock()
     for stock in stock_list:
         last_updated_at = (
