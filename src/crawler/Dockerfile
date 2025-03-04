@@ -15,4 +15,4 @@ ENV PYTHONPATH="${PYTHONPATH}:/app/database"
 COPY src/crawler /app/crawler
 COPY src/database /app/database 
 
-CMD ["prefect","server","start","&&","python","crawler/main.py"]
+CMD ["python","crawler/main.py"]

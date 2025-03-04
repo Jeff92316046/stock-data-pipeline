@@ -12,6 +12,7 @@ services:
       - .env
     depends_on:
       - db
+
   crawler:
     build: 
       context: .
@@ -20,25 +21,37 @@ services:
       - "4200:4200"
     env_file:
       - .env
+    environment:
+      - PREFECT_API_URL=http://prefect-server:4200
     depends_on:
       - db
+      - prefect-server
     command: >
       /bin/sh -c "
       cd /app/database && alembic upgrade head && cd ..;
-      echo 'start Prefect Server and Crawler...';
-      prefect server start --host 0.0.0.0 & python crawler/main.py;
-      wait"
+      echo 'start Crawler...';
+      python crawler/main.py;"
+
+  prefect-server:
+    image: prefecthq/prefect:latest
+    ports:
+      - "4200:4200"
+    environment:
+      - PREFECT_UI_HOST=0.0.0.0
+      - PREFECT_API_HOST=0.0.0.0
+
   db:
     image: postgres:latest
     restart: always
     env_file:
       - .env
     volumes:
-        - postgres_data:/var/lib/postgresql/postgres
+        - ${PWD}/data:/var/lib/postgresql/postgres
     expose:
       - 5432
     ports:
         - "5433:5432"
+
   selenium:
     image: selenium/standalone-chrome:latest
     shm_size: 2g
@@ -47,6 +60,3 @@ services:
     environment:
       - SE_NODE_MAX_SESSIONS=1
       - SE_NODE_OVERRIDE_MAX_SESSIONS=true
-
-volumes:
-  postgres_data:
