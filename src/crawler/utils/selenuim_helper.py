@@ -28,4 +28,4 @@ def get_driver(debug=False):
         yield driver
     finally:
         driver.quit()
-        time.sleep(5)
+        time.sleep(1)
