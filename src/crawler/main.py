@@ -8,4 +8,4 @@ def main():
     update_all_stocksd_data()
 
 if __name__ == "__main__":
-    main()
+    main.serve(name="stock_crawler")
