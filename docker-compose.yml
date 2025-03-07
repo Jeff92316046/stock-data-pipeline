@@ -37,6 +37,8 @@ services:
     environment:
       - PREFECT_UI_HOST=0.0.0.0
       - PREFECT_API_HOST=0.0.0.0
+      - PREFECT_UI_API_URL=https://stock-dashboard.ererweb.com/api 
+      - PREFECT_API_DATABASE_CONNECTION_URL=postgresql+asyncpg://${POSTGRES_USERNAME}:${POSTGRES_PASSWORD}@${POSTGRES_SERVER}:${POSTGRES_PORT}/prefect
     command: prefect server start --host 0.0.0.0
   db:
     image: postgres:latest
@@ -58,3 +60,4 @@ services:
     environment:
       - SE_NODE_MAX_SESSIONS=1
       - SE_NODE_OVERRIDE_MAX_SESSIONS=true
+      - SE_SESSION_REQUEST_TIMEOUT=100 
