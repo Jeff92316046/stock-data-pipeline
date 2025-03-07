@@ -37,7 +37,7 @@ services:
     environment:
       - PREFECT_UI_HOST=0.0.0.0
       - PREFECT_API_HOST=0.0.0.0
-      - PREFECT_UI_API_URL=https://stock-dashboard.ererweb.com/api 
+      - PREFECT_UI_API_URL=${PREFECT_UI_API_URL}
       - PREFECT_API_DATABASE_CONNECTION_URL=postgresql+asyncpg://${POSTGRES_USERNAME}:${POSTGRES_PASSWORD}@${POSTGRES_SERVER}:${POSTGRES_PORT}/prefect
     command: prefect server start --host 0.0.0.0
   db:
