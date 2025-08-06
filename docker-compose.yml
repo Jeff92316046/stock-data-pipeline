@@ -26,12 +26,11 @@ services:
       - prefect-server
     command: >
       /bin/sh -c "
-      cd /app/database && alembic upgrade head && cd ..;
       echo 'start Crawler...';
-      python crawler/main.py;"
+      cd /app && uv run python crawler/main.py;"
 
   prefect-server:
-    image: prefecthq/prefect:3-latest
+    image: prefecthq/prefect:3.4.11-python3.11
     ports:
       - "4200:4200"
     environment:
@@ -46,7 +45,7 @@ services:
     env_file:
       - .env
     volumes:
-        - ${PWD}/data:/var/lib/postgresql/data
+        - pgdata:/var/lib/postgresql/data
     expose:
       - 5432
     ports:
@@ -61,3 +60,6 @@ services:
       - SE_NODE_MAX_SESSIONS=2
       - SE_NODE_OVERRIDE_MAX_SESSIONS=true
       - SE_SESSION_REQUEST_TIMEOUT=500
+
+volumes:
+  pgdata:

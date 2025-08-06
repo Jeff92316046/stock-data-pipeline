@@ -4,7 +4,7 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 COPY ./src/dashboard /app/dashboard
 COPY ./src/database /app/database
-COPY ./project.toml /app/
+COPY ./pyproject.toml /app/
 COPY ./uv.lock /app/
 
 WORKDIR /app
@@ -15,4 +15,4 @@ ENV PYTHONPATH="${PYTHONPATH}:/app/database"
 ENV STREAMLIT_BROWSER_GATHER_USAGE_STATS=false
 
 
-CMD ["streamlit", "run","dashboard/main.py"]
+CMD ["/app/.venv/bin/streamlit","run","/app/dashboard/main.py"]
