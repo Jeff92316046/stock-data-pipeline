@@ -50,7 +50,7 @@ services:
     expose:
       - 5432
     ports:
-        - "5433:5432"
+        - "5432:5432"
 
   selenium:
     image: selenium/standalone-chrome:latest
@@ -58,6 +58,6 @@ services:
     ports:
       - "4444:4444"
     environment:
-      - SE_NODE_MAX_SESSIONS=1
+      - SE_NODE_MAX_SESSIONS=2
       - SE_NODE_OVERRIDE_MAX_SESSIONS=true
-      - SE_SESSION_REQUEST_TIMEOUT=100 
+      - SE_SESSION_REQUEST_TIMEOUT=500
