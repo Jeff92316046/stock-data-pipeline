@@ -64,22 +64,22 @@ def main():
         mode="lines+markers",
         name="大股東持有率",
         yaxis="y2",
-        line=dict(color=line_color),
+        line={"color": line_color},
     )
 
     fig.update_layout(
-        xaxis=dict(type="date", tickformat="%Y-%m-%d"),
-        yaxis=dict(title="總股東人數"),
-        yaxis2=dict(
-            overlaying="y",
-            side="right",
-            title="大股東持有率 (%)",
-            range=[
+        xaxis={"type": "date", "tickformat": "%Y-%m-%d"},
+        yaxis={"title": "總股東人數"},
+        yaxis2={
+            "overlaying": "y",
+            "side": "right",
+            "title": "大股東持有率 (%)",
+            "range": [
                 st.session_state.range_values2[0],
                 st.session_state.range_values2[1],
             ],
-            showgrid=False,
-        ),
+            "showgrid": False,
+        },
         title="股東人數變化與大股東持有率",
     )
 
