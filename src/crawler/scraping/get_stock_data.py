@@ -21,6 +21,8 @@ STOCK_SHARE_DISTRIBUTION_URL = "https://www.tdcc.com.tw/portal/zh/smWeb/qryStock
 
 def parse_stocksd_data(table: WebElement, stock_symbol: str, date: str) -> int:
     rows = table.find_elements(TAG_NAME, "tr")
+    if len(rows) == 1:
+        return 0
     if len(rows) == 17:
         rows[15], rows[16] = rows[16], rows[15]
     stocksds: list[stockSD] = []

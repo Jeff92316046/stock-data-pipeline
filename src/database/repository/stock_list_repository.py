@@ -18,7 +18,7 @@ def get_all_stock_symbol():
         stock_list = session.exec(stmt).all()
         return stock_list
 
-def get_stock_by_symbol(stock_symbol):
+def get_stock_by_symbol(stock_symbol:str):
     with get_db() as session:
         stmt = select(Stocks).where(Stocks.stock_symbol == stock_symbol)
         stock = session.exec(stmt).one()
