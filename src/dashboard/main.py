@@ -37,7 +37,6 @@ def main():
         if selected:
             stock_symbol = selected
 
-    # 3. 顯示結果或提示
     if stock_symbol:
         st.write("你選擇的是：", stock_symbol)
     else:
