@@ -19,12 +19,14 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
-    "black (>=24.10.0,<25.0.0)"
+    "black (>=24.10.0,<25.0.0)",
+    "ruff>=0.12.7",
 ]
 
 dashboard = [
     "streamlit (>=1.42.0,<2.0.0)",
     "plotly (>=6.0.0,<7.0.0)",
+    "streamlit-searchbox>=0.1.22",
 ]
 
 crawler = [

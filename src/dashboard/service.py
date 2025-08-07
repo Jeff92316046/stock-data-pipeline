@@ -1,7 +1,7 @@
 from itertools import groupby
 from functools import lru_cache
 from database.repository.stock_share_distribution_repository import get_stock_share_distribution_by_date
-
+from database.repository.stock_list_repository import search_stocks_by_name_keyword,search_stocks_by_symbol_keyword
 @lru_cache
 def parse_stocksd_data(stock_symbol:str):
     stock_data = get_stock_share_distribution_by_date(stock_symbol)
@@ -40,3 +40,19 @@ def handle_stocksd_chart(stock_symbol: str, range_values: tuple[int, int]):
         "總股東人數": total_holders_list,
         "大股東持有率": major_share_ratio_list
     }
+
+@lru_cache
+def search_stock_by_name(name:str):
+    results = search_stocks_by_name_keyword(name)
+    return [
+        (f"{result.stock_symbol} - {result.stock_name}", result.stock_symbol)
+        for result in results
+    ]
+
+@lru_cache
+def search_stock_by_symbol(symbol:str):
+    results = search_stocks_by_symbol_keyword(symbol)
+    return [
+        (f"{result.stock_symbol} - {result.stock_name}", result.stock_symbol)
+        for result in results
+    ]

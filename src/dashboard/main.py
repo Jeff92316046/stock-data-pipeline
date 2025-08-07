@@ -1,19 +1,33 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-from dashboard.service import handle_stocksd_chart
-
+from streamlit_searchbox import st_searchbox
+from dashboard.service import handle_stocksd_chart,search_stock_by_name,search_stock_by_symbol
 
 def reset_slider(change_key,change_value):
     st.session_state[change_key] = change_value
 
-
 def main():
     st.title("股票數據分析")
 
-    stock_symbol = st.text_input("輸入股票代號")
-    if st.button("確認"):
-        st.write(f"目前選擇的股票: {stock_symbol}")
+    search_mode = st.radio("查詢方式", ["名稱搜尋", "股票代號搜尋"], index=0, horizontal=True)
+    stock_symbol = None
+
+    if search_mode == "名稱搜尋":
+        selected = st_searchbox(search_stock_by_name, key="stock_name_search", placeholder="搜尋股票名稱")
+        if selected:
+            stock_symbol = selected
+
+    elif search_mode == "股票代號搜尋":
+        selected = st_searchbox(search_stock_by_symbol, key="stock_symbol_search", placeholder="搜尋股票代碼")
+        if selected:
+            stock_symbol = selected
+
+    # 3. 顯示結果或提示
+    if stock_symbol:
+        st.write("你選擇的是：", stock_symbol)
+    else:
+        st.write("請完成輸入以繼續")
 
     col1, col2 = st.columns([4, 1])
 

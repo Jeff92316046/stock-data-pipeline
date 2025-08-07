@@ -1,6 +1,6 @@
 from database.model import Stocks
 from sqlalchemy.dialects import postgresql
-from sqlmodel import select
+from sqlmodel import select,col
 from sqlalchemy.engine.cursor import CursorResult
 
 from database.db_helper import get_db
@@ -47,3 +47,23 @@ def upsert_stock_date_by_symbol(stock_symbol, last_updated_at):
         if stock.last_updated_at is None or last_updated_at > stock.last_updated_at:
             stock.last_updated_at = last_updated_at
             session.commit()
+
+def search_stocks_by_name_keyword(keyword: str, limit: int = 50):
+    with get_db() as session:
+        stmt = (
+            select(Stocks)
+            .where(col(Stocks.stock_name).ilike(f"%{keyword}%"))
+            .limit(limit)
+        )
+        results = session.exec(stmt).all()
+        return results
+
+def search_stocks_by_symbol_keyword(keyword: str, limit: int = 50):
+    with get_db() as session:
+        stmt = (
+            select(Stocks)
+            .where(col(Stocks.stock_symbol).ilike(f"%{keyword}%"))
+            .limit(limit)
+        )
+        results = session.exec(stmt).all()
+        return results
