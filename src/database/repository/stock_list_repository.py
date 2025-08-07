@@ -1,6 +1,6 @@
 from database.model import Stocks
 from sqlalchemy.dialects import postgresql
-from sqlmodel import select,col
+from sqlmodel import select, col
 from sqlalchemy.engine.cursor import CursorResult
 
 from database.db_helper import get_db
@@ -12,23 +12,27 @@ def get_all_stock():
         stock_list = session.exec(stmt).all()
         return stock_list
 
+
 def get_all_stock_symbol():
     with get_db() as session:
         stmt = select(Stocks.stock_symbol)
         stock_list = session.exec(stmt).all()
         return stock_list
 
-def get_stock_by_symbol(stock_symbol:str):
+
+def get_stock_by_symbol(stock_symbol: str):
     with get_db() as session:
         stmt = select(Stocks).where(Stocks.stock_symbol == stock_symbol)
         stock = session.exec(stmt).one()
         return stock
+
 
 def get_stock_last_updated_date_by_symbol(stock_symbol):
     with get_db() as session:
         stmt = select(Stocks).where(Stocks.stock_symbol == stock_symbol)
         stock = session.exec(stmt).one()
         return stock.last_updated_at
+
 
 def upsert_stock_by_symbol(stock_symbol, stock_name):
     with get_db() as session:
@@ -40,6 +44,7 @@ def upsert_stock_by_symbol(stock_symbol, stock_name):
         session.commit()
         return result.rowcount
 
+
 def upsert_stock_date_by_symbol(stock_symbol, last_updated_at):
     with get_db() as session:
         statement = select(Stocks).where(Stocks.stock_symbol == stock_symbol)
@@ -47,6 +52,7 @@ def upsert_stock_date_by_symbol(stock_symbol, last_updated_at):
         if stock.last_updated_at is None or last_updated_at > stock.last_updated_at:
             stock.last_updated_at = last_updated_at
             session.commit()
+
 
 def search_stocks_by_name_keyword(keyword: str, limit: int = 50):
     with get_db() as session:
@@ -57,6 +63,7 @@ def search_stocks_by_name_keyword(keyword: str, limit: int = 50):
         )
         results = session.exec(stmt).all()
         return results
+
 
 def search_stocks_by_symbol_keyword(keyword: str, limit: int = 50):
     with get_db() as session:

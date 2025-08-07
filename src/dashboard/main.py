@@ -2,24 +2,38 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 from streamlit_searchbox import st_searchbox
-from dashboard.service import handle_stocksd_chart,search_stock_by_name,search_stock_by_symbol
+from dashboard.service import (
+    handle_stocksd_chart,
+    search_stock_by_name,
+    search_stock_by_symbol,
+)
 
-def reset_slider(change_key,change_value):
+
+def reset_slider(change_key, change_value):
     st.session_state[change_key] = change_value
+
 
 def main():
     st.title("股票數據分析")
 
-    search_mode = st.radio("查詢方式", ["名稱搜尋", "股票代號搜尋"], index=0, horizontal=True)
+    search_mode = st.radio(
+        "查詢方式", ["名稱搜尋", "股票代號搜尋"], index=0, horizontal=True
+    )
     stock_symbol = None
 
     if search_mode == "名稱搜尋":
-        selected = st_searchbox(search_stock_by_name, key="stock_name_search", placeholder="搜尋股票名稱")
+        selected = st_searchbox(
+            search_stock_by_name, key="stock_name_search", placeholder="搜尋股票名稱"
+        )
         if selected:
             stock_symbol = selected
 
     elif search_mode == "股票代號搜尋":
-        selected = st_searchbox(search_stock_by_symbol, key="stock_symbol_search", placeholder="搜尋股票代碼")
+        selected = st_searchbox(
+            search_stock_by_symbol,
+            key="stock_symbol_search",
+            placeholder="搜尋股票代碼",
+        )
         if selected:
             stock_symbol = selected
 
@@ -40,7 +54,12 @@ def main():
     with col2:
         st.markdown("")
         st.markdown("")
-        st.button("重置",key="button1", on_click=reset_slider, args=["range_values1",(10, 15)])
+        st.button(
+            "重置",
+            key="button1",
+            on_click=reset_slider,
+            args=["range_values1", (10, 15)],
+        )
 
     col1, col2 = st.columns([4, 1])
 
@@ -55,7 +74,12 @@ def main():
     with col2:
         st.markdown("")
         st.markdown("")
-        st.button("重置",key="button2",on_click=reset_slider, args=["range_values2",(1, 100)])
+        st.button(
+            "重置",
+            key="button2",
+            on_click=reset_slider,
+            args=["range_values2", (1, 100)],
+        )
 
     dark_mode = st.session_state.get("theme", "") == "dark"
     bar_color = "#00BFFF" if dark_mode else "#1E90FF"
@@ -101,7 +125,7 @@ def main():
 
     st.subheader("歷史數據")
     df["日期"] = df["日期"].dt.strftime("%Y-%m-%d")
-    st.dataframe(df[::-1],hide_index=True,use_container_width=True)
+    st.dataframe(df[::-1], hide_index=True, use_container_width=True)
 
 
 if __name__ == "__main__":

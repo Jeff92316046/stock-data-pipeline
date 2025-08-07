@@ -26,6 +26,7 @@ def upsert_stock_share_distribution(
         session.commit()
         return result.rowcount
 
+
 def upsert_stock_share_distributions(stock_sds: list[stockSD]):
     with get_db() as session:
         stmt = postgresql.insert(stockSD).values(
@@ -38,11 +39,12 @@ def upsert_stock_share_distributions(stock_sds: list[stockSD]):
         session.commit()
         return result.rowcount
 
+
 def get_stock_share_distribution_by_date(stock_symbol: str):
     with get_db() as session:
         statement = (
             select(stockSD)
             .where(stockSD.stock_symbol == stock_symbol)
-            .order_by(stockSD.date_time,stockSD.holding_order)
+            .order_by(stockSD.date_time, stockSD.holding_order)
         )
         return session.exec(statement).all()

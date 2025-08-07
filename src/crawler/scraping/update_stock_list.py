@@ -6,6 +6,7 @@ from database.repository.stock_list_repository import upsert_stock_by_symbol
 
 STOCK_LIST_URL = "https://www.tdcc.com.tw/portal/zh/smWeb/psi"
 
+
 @task
 def update_stock_list():
     with get_driver() as driver:
@@ -31,7 +32,9 @@ def update_stock_list():
                         stock_symbol, stock_name
                     )  # 只蒐集股票代號長度為4的股票
                     if result == 1:
-                        logger.info(f"stock {stock_symbol} stock_name {stock_name} inserted")
+                        logger.info(
+                            f"stock {stock_symbol} stock_name {stock_name} inserted"
+                        )
             logger.info("Finished update stock list of Listed(上市) stock list")
             # 上櫃
             logger.info("Starting to update stock list of OTC(上櫃) stock list")
@@ -54,7 +57,9 @@ def update_stock_list():
                         stock_symbol, stock_name
                     )  # 只蒐集股票代號長度為4的股票
                     if result == 1:
-                        logger.info(f"stock {stock_symbol} stock_name {stock_name} inserted")
+                        logger.info(
+                            f"stock {stock_symbol} stock_name {stock_name} inserted"
+                        )
             logger.info("Finished update stock list of OTC(上櫃) stock list")
         except Exception as e:
             logger.error(f"Error in update stock list: {e}")

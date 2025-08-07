@@ -19,8 +19,7 @@ def get_driver(debug=False):
     else:
         if MODE == "prod":
             driver = webdriver.Remote(
-                command_executor="http://selenium:4444/wd/hub",
-                options=options
+                command_executor="http://selenium:4444/wd/hub", options=options
             )
         elif MODE == "dev":
             driver = webdriver.Chrome(options=options)
