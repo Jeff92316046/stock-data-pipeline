@@ -1,10 +1,12 @@
+import os
 import cv2
 import numpy as np
 from PIL import Image
 import onnxruntime as ort
 import torchvision.transforms as transforms
 
-ort_session = ort.InferenceSession("captcha_crnn.onnx")
+MODEL_PATH = os.getenv("MODEL_PATH")
+ort_session = ort.InferenceSession(MODEL_PATH)
 
 CHAR_SET = "2346789ACDEFGHJKLNPQRTUVXYZ"
 char_to_idx = {char: idx for idx, char in enumerate(CHAR_SET)}
