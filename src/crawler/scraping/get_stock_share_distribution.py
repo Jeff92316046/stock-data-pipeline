@@ -8,7 +8,7 @@ from database.repository.stock_share_distribution_repository import (
     upsert_stock_share_distributions,
     stockSD,
 )
-from utils.selenuim_helper import TAG_NAME, XPATH, get_driver
+from crawler.utils.selenuim_helper import TAG_NAME, XPATH, get_driver
 from selenium.webdriver.remote.webelement import WebElement
 from datetime import datetime
 from prefect import task
@@ -103,7 +103,7 @@ def fetch_stocksd_data_by_symbol(stock: Stocks):
 
 
 @task
-def update_all_stocksd_data():
+def get_all_stocksd_data():
     latest_date = ""
     with get_driver() as driver:
         driver.get(STOCK_SHARE_DISTRIBUTION_URL)

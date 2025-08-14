@@ -1,4 +1,4 @@
-from utils.selenuim_helper import get_driver, XPATH
+from crawler.utils.selenuim_helper import get_driver, XPATH
 from prefect import task
 from prefect.logging import get_run_logger
 from database.repository.stock_list_repository import upsert_stock_by_symbol
