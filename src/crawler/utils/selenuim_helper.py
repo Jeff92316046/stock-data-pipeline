@@ -6,7 +6,7 @@ from selenium.webdriver.common.by import By
 
 XPATH = By.XPATH
 TAG_NAME = By.TAG_NAME
-
+ID = By.ID
 options = webdriver.ChromeOptions()
 options.add_argument("--headless")
 MODE = os.getenv("MODE")
