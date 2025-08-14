@@ -26,7 +26,7 @@ URL = "https://bsr.twse.com.tw/bshtm/bsMenu.aspx"
 @task
 def get_stock_broker_trade_daily_in_watchlist():
     stock_list = get_all_broker_trade_watchlist()
-    with get_driver(True) as driver:
+    with get_driver() as driver:
         for stock_symbol in stock_list:
             fetch_single_broker_trade_daily(driver, stock_symbol)
 
@@ -90,7 +90,6 @@ def fetch_single_broker_trade_daily(
         else:
             get_run_logger().info(f"stock {stock_symbol} date {date.today()} inserted")
 
-        get_run_logger().info(f"stock {stock_symbol} date {date.today()} inserted")
     except NoSuchElementException:
         get_run_logger().error(f"ocr error {stock_symbol}, retrying...")
         raise NoSuchElementException("ocr error")
