@@ -15,6 +15,7 @@ dependencies = [
     "twstock (>=1.4.0,<2.0.0)",
     "sqlmodel (>=0.0.22,<0.0.23)",
     "psycopg2-binary>=2.9.10",
+    "onnxruntime>=1.22.1",
 ]
 
 [project.optional-dependencies]
@@ -33,4 +34,21 @@ crawler = [
     "selenium (>=4.27.1,<5.0.0)",
     "lxml (>=5.3.0,<6.0.0)",
     "prefect (>=3.1.13,<4.0.0)",
+    "opencv-python>=4.12.0.88",
+    "torchvision>=0.22.0",
+    "torch>=2.7.0",
+    "onnx>=1.18.0",
 ]
+
+[tool.uv.sources]
+torch = [
+    { index = "pytorch-cpu" },
+]
+torchvision = [
+    { index = "pytorch-cpu" },
+]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
