@@ -27,7 +27,7 @@ services:
     command: >
       /bin/sh -c "
       echo 'start Crawler...';
-      cd /app && uv run python crawler/main.py;"
+      cd /app && uv run python main.py;"
 
   prefect-server:
     image: prefecthq/prefect:3.4.11-python3.11
