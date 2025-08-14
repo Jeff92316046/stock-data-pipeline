@@ -29,7 +29,7 @@ def get_stock_broker_trade_daily_in_watchlist():
     for stock_symbol in stock_list:
         fetch_single_broker_trade_daily(stock_symbol)
 
-@task(cache_policy=NO_CACHE, retries=10)
+@task(cache_policy=NO_CACHE, retries=10, retry_delay_seconds=10)
 def fetch_single_broker_trade_daily(
     stock_symbol: str
 ):
