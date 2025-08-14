@@ -2,7 +2,7 @@ FROM python:3.11-slim
 
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
-COPY --exclude=src/dashboard/main.py ./src/dashboard /app/dashboard
+COPY ./src/dashboard /app/dashboard
 COPY ./src/database /app/database
 COPY ./pyproject.toml /app/
 COPY ./uv.lock /app/
