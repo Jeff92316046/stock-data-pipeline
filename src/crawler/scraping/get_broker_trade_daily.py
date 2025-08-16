@@ -29,10 +29,9 @@ def get_stock_broker_trade_daily_in_watchlist():
     for stock_symbol in stock_list:
         fetch_single_broker_trade_daily(stock_symbol)
 
+
 @task(cache_policy=NO_CACHE, retries=10, retry_delay_seconds=10)
-def fetch_single_broker_trade_daily(
-    stock_symbol: str
-):
+def fetch_single_broker_trade_daily(stock_symbol: str):
     with get_driver() as driver:
         try:
             driver.get(URL)
@@ -57,7 +56,9 @@ def fetch_single_broker_trade_daily(
             print(f"[DEBUG] Captcha: {predicted_string}")
             time.sleep(2)
 
-            stock_symbol_inputbox = driver.find_element(XPATH, '//*[@id="TextBox_Stkno"]')
+            stock_symbol_inputbox = driver.find_element(
+                XPATH, '//*[@id="TextBox_Stkno"]'
+            )
             stock_symbol_inputbox.clear()
             stock_symbol_inputbox.send_keys(stock_symbol)
             time.sleep(2)
@@ -87,7 +88,9 @@ def fetch_single_broker_trade_daily(
                     f"stock {stock_symbol} date {date.today()} is already exists"
                 )
             else:
-                get_run_logger().info(f"stock {stock_symbol} date {date.today()} inserted")
+                get_run_logger().info(
+                    f"stock {stock_symbol} date {date.today()} inserted"
+                )
         except NoSuchElementException:
             get_run_logger().error(f"ocr error {stock_symbol}, retrying...")
             raise NoSuchElementException("ocr error")
