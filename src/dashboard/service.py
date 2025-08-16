@@ -1,3 +1,4 @@
+from datetime import date
 from itertools import groupby
 from functools import lru_cache
 from database.repository.stock_share_distribution_repository import (
@@ -6,6 +7,9 @@ from database.repository.stock_share_distribution_repository import (
 from database.repository.stock_list_repository import (
     search_stocks_by_name_keyword,
     search_stocks_by_symbol_keyword,
+)
+from database.repository.broker_trade_dialy_repository import (
+    get_broker_trade_daily_with_date_and_stoke_symbol,
 )
 
 
@@ -72,3 +76,10 @@ def search_stock_by_symbol(symbol: str):
         (f"{result.stock_symbol} - {result.stock_name}", result.stock_symbol)
         for result in results
     ]
+
+
+@lru_cache
+def get_broker_trade_daily(stock_symbol: str, start_date: date, end_date: date):
+    return get_broker_trade_daily_with_date_and_stoke_symbol(
+        stock_symbol, start_date, end_date
+    )
