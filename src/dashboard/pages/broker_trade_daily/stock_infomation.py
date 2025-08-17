@@ -48,23 +48,54 @@ if stock_symbol:
     else:
         start_date = end_date = date_range
 
-    trades = get_broker_trade_daily(stock_symbol,start_date,end_date)
+    trades = get_broker_trade_daily(stock_symbol, start_date, end_date)
 
     if trades:
-        st.dataframe(
-            [
-                {
-                    "日期": t.trade_date,
-                    "券商代號": t.broker_code,
-                    "券商名稱": t.broker_name,
-                    "價格": t.price,
-                    "買進股數": t.buy_volume,
-                    "賣出股數": t.sell_volume,
-                }
-                for t in trades
-            ],
-            use_container_width=True,
-            height=1000,
-        )
+        col1, col2, col3 = st.columns([2, 1, 1])
+        with col1:
+            broker_filter = st.text_input("輸入券商代號或名稱進行篩選")
+            apply_filter = st.button("篩選")
+        filtered_trades = trades
+        if apply_filter and broker_filter:
+            broker_filter_lower = broker_filter.lower()
+            filtered_trades = [
+                t for t in trades
+                if broker_filter_lower == t.broker_code.lower()
+                or broker_filter_lower == t.broker_name.lower()
+            ]
+        if filtered_trades:
+            total_buy_value = sum(t.buy_volume * t.price for t in filtered_trades if t.buy_volume)
+            total_buy_volume = sum(t.buy_volume for t in filtered_trades if t.buy_volume)
+
+            total_sell_value = sum(t.sell_volume * t.price for t in filtered_trades if t.sell_volume)
+            total_sell_volume = sum(t.sell_volume for t in filtered_trades if t.sell_volume)
+
+            avg_buy_price = total_buy_value / total_buy_volume if total_buy_volume else 0
+            avg_sell_price = total_sell_value / total_sell_volume if total_sell_volume else 0
+        with col2:
+            st.metric("買進加權平均價",f"{avg_buy_price:.2f}")
+        with col3:
+            st.metric("賣出加權平均價",f"{avg_sell_price:.2f}")
+        if filtered_trades:
+            st.dataframe(
+                [
+                    {
+                        "日期": t.trade_date,
+                        "券商代號": t.broker_code,
+                        "券商名稱": t.broker_name,
+                        "價格": t.price,
+                        "買進股數": t.buy_volume,
+                        "賣出股數": t.sell_volume,
+                    }
+                    for t in filtered_trades
+                ],
+                use_container_width=True,
+                height=800,
+            )
+
+            
+
+        else:
+            st.info("查無符合的券商資料")
     else:
         st.info("查無交易資料")

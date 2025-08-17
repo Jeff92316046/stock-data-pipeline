@@ -16,17 +16,13 @@ st.subheader("追蹤名單")
 watchlist = get_all_watchlist_with_stock_name()
 if watchlist:
     for idx, (symbol, name, wid) in enumerate(get_all_watchlist_with_stock_name()):
-        col1, col2 = st.columns([5, 1])
-        col1.markdown(f"##### {symbol} - {name}")
-        if col2.button("刪除", key=f"del_{wid}"):
-            delete_stock_from_watchlist(wid)
-            st.rerun()
+        col = st.container(horizontal=True)
+        with col:
+            st.markdown(f"##### {symbol} - {name}",width="content")
+            if st.button("❌", key=f"del_{wid}"):
+                delete_stock_from_watchlist(wid)
+                st.rerun()
         if idx < len(watchlist) - 1:
-            st.markdown(
-                """
-                <hr style="margin:0.3rem 0; border:0; border-top:1px solid #fff;" />
-                """,
-                unsafe_allow_html=True,
-            )
+            st.divider()
 else:
     st.info("目前沒有任何追蹤股票")
