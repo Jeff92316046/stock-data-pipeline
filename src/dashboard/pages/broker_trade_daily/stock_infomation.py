@@ -74,8 +74,10 @@ if stock_symbol:
             avg_sell_price = total_sell_value / total_sell_volume if total_sell_volume else 0
         with col2:
             st.metric("買進加權平均價",f"{avg_buy_price:.2f}")
-        with col3:
             st.metric("賣出加權平均價",f"{avg_sell_price:.2f}")
+        with col3:
+            st.metric("買進張數",f"{total_buy_volume//1000}")
+            st.metric("賣出張數",f"{total_sell_volume//1000}")
         if filtered_trades:
             st.dataframe(
                 [
